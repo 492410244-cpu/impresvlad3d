@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ImpresVlad 3DS - Impresión 3D a tu Medida</title>
+    <title>ImpresVlad 3DS - Impresión 3D Profesional</title>
     <style>
         * {
             margin: 0;
@@ -11,14 +11,94 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.8;
-            color: #e0e0e0;
-            background: #0a0a0a;
-            font-size: 18px;
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --dark: #0a0a0a;
+            --dark-card: #1a1a1a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --warning: #ffc107;
         }
 
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* Navegación */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
         .hero {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
@@ -26,7 +106,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 80px 20px;
+            padding: 8rem 2rem 4rem;
             position: relative;
             overflow: hidden;
         }
@@ -34,141 +114,280 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            width: 150%;
+            height: 150%;
             background: 
-                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(30px, 30px) rotate(5deg); }
         }
 
         .hero-content {
             position: relative;
             z-index: 1;
-            max-width: 1400px;
+            max-width: 1200px;
+            animation: fadeInUp 1s ease-out;
         }
 
-        h1 {
-            font-size: 6em;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 30px;
+            margin-bottom: 1.5rem;
             font-weight: 900;
-            letter-spacing: 2px;
+            letter-spacing: -1px;
         }
 
         .tagline {
-            font-size: 2.2em;
-            color: #b0b0b0;
-            margin-bottom: 50px;
+            font-size: clamp(1.1rem, 3vw, 1.8rem);
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
             font-weight: 300;
+            line-height: 1.5;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 25px 60px;
+            padding: 1rem 2.5rem;
             border-radius: 50px;
             text-decoration: none;
-            font-size: 1.5em;
-            font-weight: bold;
+            font-size: 1.1rem;
+            font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
         }
 
         .cta-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(102, 126, 234, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
         }
 
+        .cta-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            box-shadow: none;
+        }
+
+        .cta-secondary:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        /* Container */
         .container {
-            max-width: 1600px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 40px;
+            padding: 0 2rem;
         }
 
+        /* Notice Banner */
         .notice {
-            background: linear-gradient(135deg, #2d1b00 0%, #3d2600 100%);
-            border-left: 8px solid #ffc107;
-            padding: 50px;
-            margin: 80px 0;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(255, 193, 7, 0.2);
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 152, 0, 0.1));
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-left: 5px solid var(--warning);
+            padding: 2rem;
+            margin: 4rem 0;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
         }
 
-        .notice h2 {
-            color: #ffc107;
-            margin-bottom: 25px;
-            font-size: 2.8em;
+        .notice-content {
+            display: flex;
+            gap: 1.5rem;
+            align-items: start;
         }
 
-        .notice p {
-            color: #e0e0e0;
-            font-size: 1.3em;
-            line-height: 1.8;
+        .notice-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
         }
 
-        .section {
-            background: #1a1a1a;
-            padding: 80px 60px;
-            margin-bottom: 60px;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            border: 1px solid #2a2a2a;
-        }
-
-        h2 {
-            color: #667eea;
-            margin-bottom: 40px;
-            font-size: 3.5em;
-            font-weight: 800;
-        }
-
-        .section > p {
-            font-size: 1.4em;
-            color: #b0b0b0;
-            margin-bottom: 50px;
-            line-height: 1.8;
-        }
-
-        .filament-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
-        }
-
-        .filament-card {
-            background: linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%);
-            padding: 50px;
-            border-radius: 25px;
-            transition: all 0.4s ease;
-            border: 2px solid #333;
-            min-height: 450px;
-        }
-
-        .filament-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
-            border-color: #667eea;
-        }
-
-        .filament-card h3 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 2.5em;
+        .notice h3 {
+            color: var(--warning);
+            margin-bottom: 0.75rem;
+            font-size: 1.5rem;
             font-weight: 700;
         }
 
-        .filament-card > p {
-            color: #888;
-            font-size: 1.3em;
-            margin-bottom: 30px;
-            font-style: italic;
+        .notice p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Section */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-label {
+            display: inline-block;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .section-description {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Feature Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--dark-card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Filament Cards */
+        .filament-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .filament-card {
+            background: var(--dark-card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .filament-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .filament-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filament-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .filament-card h3 {
+            color: var(--text-primary);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .filament-description {
+            color: var(--primary);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
         }
 
         .advantages {
@@ -177,341 +396,448 @@
         }
 
         .advantages li {
-            padding: 15px 0;
-            padding-left: 40px;
+            padding: 0.75rem 0;
+            padding-left: 2rem;
             position: relative;
-            font-size: 1.2em;
-            color: #c0c0c0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
 
-        .advantages li:before {
+        .advantages li::before {
             content: "✓";
             position: absolute;
             left: 0;
             color: #4CAF50;
             font-weight: bold;
-            font-size: 1.5em;
+            font-size: 1.2rem;
         }
 
-        .quote-section {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            padding: 100px 60px;
-            border-radius: 30px;
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            padding: 4rem 3rem;
+            border-radius: 25px;
             text-align: center;
-            margin: 80px 0;
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+            margin: 5rem 0;
         }
 
-        .quote-section h2 {
-            font-size: 4em;
-            margin-bottom: 30px;
+        .cta-section h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .quote-section > p {
-            font-size: 1.5em;
-            color: #b0b0b0;
-            margin-bottom: 60px;
-        }
-
-        .form-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px 70px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.8em;
-            transition: all 0.3s ease;
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
-        }
-
-        .form-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.6);
+        .cta-section p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .info-boxes {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 40px;
-            margin-top: 60px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            text-align: left;
         }
 
         .info-box {
-            background: #1e1e1e;
-            padding: 40px;
-            border-radius: 20px;
-            border-left: 6px solid #2196F3;
-        }
-
-        .info-box.warning {
-            border-left-color: #ffc107;
-            background: linear-gradient(135deg, #1e1e1e 0%, #2a2410 100%);
+            background: rgba(26, 26, 26, 0.5);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
         }
 
         .info-box h3 {
-            color: #667eea;
-            font-size: 2em;
-            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
         }
 
         .info-box p {
-            font-size: 1.2em;
-            line-height: 1.8;
-            color: #c0c0c0;
-            margin-bottom: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
         }
 
         .info-box ul {
-            margin-top: 20px;
-            margin-left: 20px;
+            list-style: none;
+            padding: 0;
         }
 
         .info-box ul li {
-            padding: 10px 0;
-            font-size: 1.2em;
-            color: #b0b0b0;
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
         }
 
-        footer {
-            text-align: center;
-            color: #666;
-            padding: 80px 20px;
-            margin-top: 100px;
-            border-top: 1px solid #2a2a2a;
-        }
-
-        footer p {
-            font-size: 1.3em;
-            margin: 15px 0;
-        }
-
-        footer p:first-child {
-            font-size: 2em;
-            color: #667eea;
-            font-weight: bold;
-        }
-
-        .features-grid {
+        /* Process Steps */
+        .process-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-            margin-top: 60px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            position: relative;
         }
 
-        .feature-card {
-            background: #1e1e1e;
-            padding: 50px;
+        .process-step {
+            background: var(--dark-card);
+            padding: 2rem;
             border-radius: 20px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
             text-align: center;
-            border: 2px solid #2a2a2a;
-            transition: all 0.3s ease;
+            position: relative;
         }
 
-        .feature-card:hover {
-            border-color: #667eea;
-            transform: translateY(-5px);
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
         }
 
-        .feature-icon {
-            font-size: 4em;
-            margin-bottom: 20px;
+        .process-step h3 {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
         }
 
-        .feature-card h3 {
-            color: #667eea;
-            font-size: 2em;
-            margin-bottom: 20px;
+        .process-step p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95rem;
         }
 
-        .feature-card p {
-            font-size: 1.2em;
-            color: #b0b0b0;
-            line-height: 1.8;
+        /* Footer */
+        footer {
+            background: var(--dark-card);
+            border-top: 1px solid rgba(102, 126, 234, 0.1);
+            padding: 4rem 2rem 2rem;
+            margin-top: 6rem;
         }
 
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer-tagline {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-contact {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin: 1rem 0;
+        }
+
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(102, 126, 234, 0.1);
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 3em;
+            .navbar {
+                padding: 1rem;
             }
-            
-            .tagline {
-                font-size: 1.5em;
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: rgba(10, 10, 10, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                border-bottom: 1px solid rgba(102, 126, 234, 0.2);
             }
-            
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .hero {
+                padding: 7rem 1.5rem 3rem;
+            }
+
+            .cta-group {
+                flex-direction: column;
+            }
+
+            .cta-button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .notice-content {
+                flex-direction: column;
+            }
+
+            .features-grid,
             .filament-grid,
             .info-boxes,
-            .features-grid {
+            .process-grid {
                 grid-template-columns: 1fr;
             }
+
+            .cta-section {
+                padding: 2.5rem 1.5rem;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Selection */
+        ::selection {
+            background: var(--primary);
+            color: white;
         }
     </style>
 </head>
 <body>
-    <div class="hero">
-        <div class="hero-content">
-            <h1>🖨️ ImpresVlad 3DS</h1>
-            <p class="tagline">Transformamos tus ideas en realidad<br>Impresión 3D de Calidad - Precio Justo</p>
-            <a href="#cotizacion" class="cta-button">Solicitar Cotización</a>
+    <!-- Navegación -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">ImpresVlad 3DS</div>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#materiales">Materiales</a></li>
+                <li><a href="#cotizacion">Cotización</a></li>
+                <li><a href="#proceso">Proceso</a></li>
+            </ul>
         </div>
-    </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h1>Impresión 3D Profesional</h1>
+            <p class="tagline">Transformamos tus ideas en realidad con tecnología de vanguardia<br>Calidad superior • Precios competitivos • Atención personalizada</p>
+            <div class="cta-group">
+                <a href="#cotizacion" class="cta-button">
+                    🚀 Solicitar Cotización
+                </a>
+                <a href="#materiales" class="cta-button cta-secondary">
+                    💡 Ver Materiales
+                </a>
+            </div>
+        </div>
+    </section>
 
     <div class="container">
+        <!-- Notice Banner -->
         <div class="notice">
-            <h2>🌱 ¡Estamos Empezando Nuestro Camino!</h2>
-            <p><strong>Aviso importante:</strong> Somos un emprendimiento nuevo y nos enfocamos en ofrecerte el mejor precio posible. Por eso, conseguimos el filamento específico para tu proyecto después de confirmar tu pedido. Esto significa que los tiempos de entrega pueden ser un poco más largos, pero garantizamos calidad y ahorro en cada impresión. ¡Gracias por tu paciencia y confianza en este nuevo proyecto!</p>
+            <div class="notice-content">
+                <div class="notice-icon">🌱</div>
+                <div>
+                    <h3>Emprendimiento en Crecimiento</h3>
+                    <p><strong>Transparencia total:</strong> Somos un nuevo emprendimiento comprometido con ofrecerte el mejor precio. Adquirimos el filamento específico para tu proyecto después de confirmar tu pedido, lo que nos permite mantener costos bajos sin comprometer la calidad. Los tiempos de entrega pueden extenderse ligeramente, pero garantizamos excelencia en cada impresión.</p>
+                </div>
+            </div>
         </div>
 
-        <div class="section">
-            <h2>⚡ ¿Por Qué Elegirnos?</h2>
+        <!-- Por Qué Elegirnos -->
+        <section class="section" id="servicios">
+            <div class="section-header">
+                <span class="section-label">Nuestras Ventajas</span>
+                <h2 class="section-title">¿Por Qué Elegir ImpresVlad 3DS?</h2>
+                <p class="section-description">Combinamos tecnología avanzada, materiales premium y un enfoque centrado en el cliente para entregar resultados excepcionales</p>
+            </div>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">💰</div>
-                    <h3>Mejor Precio</h3>
-                    <p>Compramos el filamento específico para tu proyecto, garantizando el mejor costo sin intermediarios innecesarios.</p>
+                    <span class="feature-icon">💰</span>
+                    <h3>Precio Imbatible</h3>
+                    <p>Eliminamos intermediarios innecesarios. Compramos el material exacto para tu proyecto, garantizando el mejor costo del mercado sin sacrificar calidad.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Personalizado</h3>
-                    <p>Cada proyecto es único. Trabajamos contigo para entender exactamente lo que necesitas y cómo lograrlo.</p>
+                    <span class="feature-icon">🎯</span>
+                    <h3>100% Personalizado</h3>
+                    <p>Cada proyecto es único y merece atención especial. Trabajamos contigo para entender tus necesidades y superar tus expectativas.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">✨</div>
+                    <span class="feature-icon">✨</span>
                     <h3>Calidad Premium</h3>
-                    <p>No comprometemos la calidad por el precio. Usamos los mejores materiales disponibles para cada impresión.</p>
+                    <p>Utilizamos únicamente materiales de primera calidad y equipos profesionales para garantizar acabados impecables en cada impresión.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">⚡</span>
+                    <h3>Asesoría Experta</h3>
+                    <p>Te guiamos en la selección del material ideal, optimización de diseños y configuraciones técnicas para resultados óptimos.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔧</span>
+                    <h3>Versatilidad Total</h3>
+                    <p>Desde prototipos funcionales hasta piezas decorativas complejas. Si lo puedes imaginar, lo podemos imprimir.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🤝</span>
+                    <h3>Compromiso Real</h3>
+                    <p>Tu satisfacción es nuestra prioridad. Comunicación constante y revisiones hasta lograr exactamente lo que necesitas.</p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="section">
-            <h2>💡 Nuestros Filamentos Disponibles</h2>
-            <p>Trabajamos con diversos materiales de alta calidad para adaptarnos perfectamente a las necesidades de tu proyecto:</p>
-            
+        <!-- Materiales -->
+        <section class="section" id="materiales">
+            <div class="section-header">
+                <span class="section-label">Nuestros Materiales</span>
+                <h2 class="section-title">Filamentos de Alta Calidad</h2>
+                <p class="section-description">Selección profesional de materiales para cada tipo de proyecto y aplicación específica</p>
+            </div>
             <div class="filament-grid">
                 <div class="filament-card">
-                    <h3>PLA</h3>
-                    <p><strong>El más popular y versátil</strong></p>
+                    <div class="filament-header">
+                        <div class="filament-icon">🔷</div>
+                        <h3>PLA</h3>
+                    </div>
+                    <p class="filament-description">Material versátil y ecológico - Ideal para principiantes</p>
                     <ul class="advantages">
-                        <li>Fácil de imprimir con excelentes resultados</li>
+                        <li>Impresión fácil con resultados profesionales</li>
                         <li>Acabado brillante y suave al tacto</li>
-                        <li>Biodegradable y ecológico</li>
-                        <li>Gran variedad de colores vibrantes</li>
-                        <li>Ideal para decoración, prototipos y figuras</li>
-                        <li>Sin olores desagradables durante la impresión</li>
+                        <li>Biodegradable y amigable con el ambiente</li>
+                        <li>Amplia gama de colores vibrantes</li>
+                        <li>Perfecto para decoración, prototipos y figuras</li>
+                        <li>Sin emisiones de olores desagradables</li>
+                        <li>Excelente definición de detalles finos</li>
                     </ul>
                 </div>
 
                 <div class="filament-card">
-                    <h3>ABS</h3>
-                    <p><strong>Resistencia superior para uso intensivo</strong></p>
+                    <div class="filament-header">
+                        <div class="filament-icon">⚙️</div>
+                        <h3>ABS</h3>
+                    </div>
+                    <p class="filament-description">Resistencia industrial - Para aplicaciones exigentes</p>
                     <ul class="advantages">
-                        <li>Alta resistencia mecánica y durabilidad</li>
-                        <li>Soporta temperaturas elevadas (hasta 100°C)</li>
+                        <li>Alta resistencia mecánica y durabilidad extrema</li>
+                        <li>Soporta temperaturas hasta 100°C</li>
                         <li>Ideal para piezas funcionales y herramientas</li>
-                        <li>Duradero y resistente a impactos fuertes</li>
+                        <li>Resistente a impactos y uso intensivo</li>
                         <li>Perfecto para uso en exteriores</li>
-                        <li>Puede ser lijado y pintado fácilmente</li>
+                        <li>Fácil post-procesamiento: lijado y pintura</li>
+                        <li>Material profesional para ingeniería</li>
                     </ul>
                 </div>
 
                 <div class="filament-card">
-                    <h3>PETG</h3>
-                    <p><strong>Lo mejor de ambos mundos</strong></p>
+                    <div class="filament-header">
+                        <div class="filament-icon">💎</div>
+                        <h3>PETG</h3>
+                    </div>
+                    <p class="filament-description">Balance perfecto - Resistencia y facilidad de impresión</p>
                     <ul class="advantages">
-                        <li>Resistente y flexible a la vez</li>
+                        <li>Combinación ideal de resistencia y flexibilidad</li>
                         <li>Resistente a químicos y solventes</li>
                         <li>Excelente adherencia entre capas</li>
-                        <li>Transparencia disponible para diseños únicos</li>
-                        <li>Uso alimentario seguro (grado food safe)</li>
-                        <li>Resistente a la intemperie y rayos UV</li>
+                        <li>Disponible en acabado transparente</li>
+                        <li>Grado alimentario (food safe)</li>
+                        <li>Resistente a intemperie y rayos UV</li>
+                        <li>Mínima contracción durante impresión</li>
                     </ul>
                 </div>
 
                 <div class="filament-card">
-                    <h3>TPU</h3>
-                    <p><strong>Flexible y elástico como goma</strong></p>
+                    <div class="filament-header">
+                        <div class="filament-icon">🔄</div>
+                        <h3>TPU</h3>
+                    </div>
+                    <p class="filament-description">Flexibilidad extrema - Como caucho profesional</p>
                     <ul class="advantages">
-                        <li>Alta flexibilidad y elasticidad</li>
-                        <li>Resistente a la abrasión y desgaste</li>
-                        <li>Ideal para fundas, protectores y juntas</li>
+                        <li>Alta flexibilidad y elasticidad controlada</li>
+                        <li>Resistente a abrasión y desgaste intenso</li>
+                        <li>Ideal para fundas, protectores y sellos</li>
                         <li>Excelente absorción de impactos</li>
-                        <li>Resistente al aceite, grasa y químicos</li>
+                        <li>Resistente a aceite, grasa y químicos</li>
                         <li>Perfecto para wearables y accesorios</li>
+                        <li>Duradero en aplicaciones de alta exigencia</li>
                     </ul>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="section quote-section" id="cotizacion">
-            <h2>📋 Solicita tu Cotización Personalizada</h2>
-            <p>Completa nuestro formulario y te responderemos con un presupuesto detallado adaptado a tu proyecto</p>
+        <!-- CTA Cotización -->
+        <section class="cta-section" id="cotizacion">
+            <h2>Solicita tu Cotización sin Compromiso</h2>
+            <p>Completa nuestro formulario y recibe un presupuesto detallado adaptado específicamente a las necesidades de tu proyecto en menos de 24 horas</p>
             
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSeK2j6hB0Zz_lmls1IJDx2ysLo7FGyfNj0Krd6MSIzcGKPlmw/viewform?usp=dialog" 
                target="_blank"
-               class="form-button">
-                🚀 Solicitar Cotización Ahora
+               class="cta-button">
+                📋 Solicitar Cotización Ahora
             </a>
 
             <div class="info-boxes">
                 <div class="info-box">
-                    <h3>📋 Información que Necesitamos</h3>
+                    <h3>📋 Información Requerida</h3>
+                    <p>Para brindarte la cotización más precisa, necesitamos:</p>
                     <ul>
                         <li>✓ Descripción detallada de tu proyecto</li>
-                        <li>✓ Tipo de filamento preferido</li>
-                        <li>✓ Cantidad de piezas a imprimir</li>
+                        <li>✓ Tipo de filamento preferido o sugerencias</li>
+                        <li>✓ Cantidad de piezas a producir</li>
                         <li>✓ Color o acabado deseado</li>
-                        <li>✓ Dimensiones aproximadas</li>
+                        <li>✓ Dimensiones aproximadas o archivos 3D</li>
+                        <li>✓ Tiempo de entrega esperado</li>
                     </ul>
                 </div>
 
-                <div class="info-box warning">
-                    <h3>📁 ¿Tienes los Archivos 3D?</h3>
-                    <p>Si ya cuentas con los modelos 3D, puedes compartirlos usando plataformas de almacenamiento en la nube:</p>
-                    <ul>
-                        <li>📦 Google Drive</li>
-                        <li>📦 WeTransfer</li>
-                        <li>📦 Dropbox</li>
-                        <li>📦 OneDrive</li>
-                    </ul>
-                    <p style="margin-top: 20px;"><strong>Formatos aceptados:</strong> STL, OBJ, 3MF, STEP</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>🔧 Nuestro Proceso de Trabajo</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">1️⃣</div>
-                    <h3>Cotización</h3>
-                    <p>Envías tu proyecto y te damos un presupuesto detallado sin compromiso.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">2️⃣</div>
-                    <h3>Confirmación</h3>
-                    <p>Revisamos juntos los detalles y confirmamos materiales, colores y tiempos.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">3️⃣</div>
-                    <h3>Producción</h3>
-                    <p>Conseguimos el mejor filamento para tu proyecto e iniciamos la impresión.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">4️⃣</div>
-                    <h3>Entrega</h3>
-                    <p>Te notificamos cuando esté listo y coordinamos la entrega de tu pieza.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <p><strong>ImpresVlad 3DS</strong></p>
-        <p>Impresión 3D de Calidad</p>
-        <p>Transformamos ideas en realidad, una capa a la vez</p>
-        <p style="margin-top: 40px;">📧 Contáctanos para más información</p>
-        <p style="font-size: 1em; color: #444; margin-top: 40px;">© 2024 ImpresVlad 3DS. Todos los derechos reservados.</p>
-    </footer>
-</body>
-</html>
+                <div class="info-box">
+                    <h3>📁 Compartir Archivos 3D</h3>
+                    <p>Si ya tienes los modelos 3D
